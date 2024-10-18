@@ -15,7 +15,7 @@
             font-family: Arial, sans-serif;
             overflow: hidden;
             color: white;
-            background: #000;
+            background: #000; /* Background color remains black */
         }
 
         .background {
@@ -62,7 +62,7 @@
             padding: 20px;
             width: 400px;
             text-align: center;
-            box-shadow: 0 0 20px rgba(128, 0, 128, 0.8);
+            box-shadow: 0 0 20px rgba(0, 128, 255, 0.8); /* Changed to blue shadow */
             position: relative;
         }
 
@@ -71,7 +71,7 @@
             flex-direction: column;
             align-items: center;
             margin-bottom: 20px;
-            border-color: rgb(219 176 3);
+            border-color: rgb(219, 176, 3);
             border-width: 2px;
         }
 
@@ -83,14 +83,14 @@
             width: 80px;
             margin-bottom: 10px;
             transition: background-image 0.3s ease;
-            border: 2px solid #800080;
-            box-shadow: 0 0 20px rgba(128, 0, 128, 0.8);
+            border: 2px solid #800080; /* Violet border */
+            box-shadow: 0 0 20px rgba(0, 128, 255, 0.8); /* Changed to blue shadow */
         }
 
         .profile-name {
             font-size: 28px;
             margin: 0;
-            color: #D8A3E4;
+            color: #A3D8E4; /* Changed to blue tone */
             animation: fadeIn 0.5s ease-in-out;
             background-image: url(purplesparkle.gif);
             line-height: 32px;
@@ -143,8 +143,8 @@
             height: 40px;
             width: 40px;
             transition: transform 0.6s ease;
-            filter: drop-shadow(rgb(173, 5, 118) 0px 0px 1.9px);
-            fill: rgb(170, 47, 230);
+            filter: drop-shadow(rgb(0, 128, 255) 0px 0px 1.9px); /* Changed to blue shadow */
+            fill: rgb(0, 128, 255); /* Changed to blue color */
         }
 
         .icon:hover {
@@ -157,7 +157,7 @@
 
         .music-time {
             font-size: 18px;
-            color: #D8A3E4;
+            color: #A3D8E4; /* Changed to blue tone */
         }
 
         .progress-bar {
@@ -170,7 +170,7 @@
         }
 
         .progress {
-            background: #9C27B0;
+            background: #00BFFF; /* Changed to blue color */
             border-radius: 5px;
             height: 100%;
             width: 0;
@@ -204,15 +204,15 @@
         }
 
         .control.play-pause {
-            background-color: #9D056B;
-            box-shadow: 0 0 20px rgba(128, 0, 128, 0.8);
+            background-color: #0099CC; /* Changed to blue */
+            box-shadow: 0 0 20px rgba(0, 128, 255, 0.8); /* Changed to blue shadow */
             color: #000000;
         }
 
         .control.mute {
             background-image: url('dis-sound.png');
-            background-color: #9D056B;
-            box-shadow: 0 0 20px rgba(128, 0, 128, 0.8);
+            background-color: #0099CC; /* Changed to blue */
+            box-shadow: 0 0 20px rgba(0, 128, 255, 0.8); /* Changed to blue shadow */
             color: #000000;
         }
 
@@ -226,7 +226,7 @@
         }
 
         .control:hover {
-            background-color: rgba(194, 8, 133, 0.4);
+            background-color: rgba(0, 153, 204, 0.4); /* Changed to blue hover */
         }
 
         .view-counter {
@@ -261,7 +261,7 @@
                 <p class="profile-name">ValentinLoys</p>
                 <p class="profile-status">死から目覚めて生き返る</p>
                 <div class="profile-icons">
-                    <a href=""><img src="BR.png" class="icon" alt="Roblox"></a>
+                    <a href=""><img src="RB.png" class="icon" alt="Roblox"></a>
                     <a href=""><img src="DB.png" class="icon" alt="Discord"></a>
                     <a href="https://www.youtube.com/channel/UCkrdNuHVElIXAhN2YAx7Lgg"><img src="YTB.png" class="icon" alt="YouTube"></a>
                     <a href=""><img src="InfB.png" class="icon" alt="Info"></a>
@@ -280,101 +280,52 @@
                     <button class="control play-pause" id="playPauseButton">▶</button>
                     <button class="control mute" id="muteButton"></button>
                 </div>
-                <audio id="audioPlayer" autoplay>
-                    <source src="S.mp3" type="audio/mp3">
-                    Your browser does not support the audio element.
-                </audio>
+            </div>
+            <div class="view-counter">
+                <img src="eye.png" alt="Views">
+                <span id="viewCount">0 Views</span>
             </div>
         </div>
-        <div class="view-counter">
-    </div>
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const audioPlayer = document.getElementById("audioPlayer");
-            const playPauseButton = document.getElementById("playPauseButton");
-            const muteButton = document.getElementById("muteButton");
-            const progress = document.getElementById("progress");
-            const currentTimeElement = document.getElementById("current-time");
-            const totalTimeElement = document.getElementById("total-time");
-            const viewCountElement = document.getElementById("view-count");
+        const playPauseButton = document.getElementById('playPauseButton');
+        const muteButton = document.getElementById('muteButton');
+        const progress = document.getElementById('progress');
+        const currentTimeLabel = document.getElementById('current-time');
+        const totalTimeLabel = document.getElementById('total-time');
 
-            let isPlaying = false;
-            let isMuted = false;
+        // Simulated audio element
+        const audio = new Audio('path_to_your_audio_file.mp3');
+        audio.addEventListener('loadedmetadata', () => {
+            totalTimeLabel.textContent = formatTime(audio.duration);
+        });
 
-            // Function to get the current view count from localStorage
-            function getViewCount() {
-                let count = localStorage.getItem("viewCount");
-                return count ? parseInt(count, 10) : 0;
-            }
+        audio.addEventListener('timeupdate', () => {
+            currentTimeLabel.textContent = formatTime(audio.currentTime);
+            const progressPercentage = (audio.currentTime / audio.duration) * 100;
+            progress.style.width = `${progressPercentage}%`;
+        });
 
-            // Function to set the view count in localStorage
-            function setViewCount(count) {
-                localStorage.setItem("viewCount", count);
-                viewCountElement.textContent = count;
-            }
-
-            // Check if the user has already visited the page
-            function hasVisited() {
-                return localStorage.getItem("hasVisited") === "true";
-            }
-
-            // Mark the user as visited
-            function markAsVisited() {
-                localStorage.setItem("hasVisited", "true");
-            }
-
-            // Update view count if the user has not visited before
-            if (!hasVisited()) {
-                let viewCount = getViewCount();
-                viewCount++;
-                setViewCount(viewCount);
-                markAsVisited();
-            }
-
-            playPauseButton.addEventListener("click", () => {
-                if (isPlaying) {
-                    audioPlayer.pause();
-                    playPauseButton.textContent = "▶";
-                    playPauseButton.classList.remove("playing");
-                } else {
-                    audioPlayer.play();
-                    playPauseButton.textContent = "■";
-                    playPauseButton.classList.add("playing");
-                }
-                isPlaying = !isPlaying;
-            });
-
-            muteButton.addEventListener("click", () => {
-                if (isMuted) {
-                    audioPlayer.muted = false;
-                    muteButton.classList.remove("unmuted");
-                } else {
-                    audioPlayer.muted = true;
-                    muteButton.classList.add("unmuted");
-                }
-                isMuted = !isMuted;
-            });
-
-            audioPlayer.addEventListener("canplay", () => {
-                totalTimeElement.textContent = formatTime(audioPlayer.duration);
-            });
-
-            audioPlayer.addEventListener("timeupdate", () => {
-                const currentTime = audioPlayer.currentTime;
-                const duration = audioPlayer.duration;
-                const progressPercent = (currentTime / duration) * 100;
-                progress.style.width = `${progressPercent}%`;
-
-                currentTimeElement.textContent = formatTime(currentTime);
-            });
-
-            function formatTime(time) {
-                const minutes = Math.floor(time / 60);
-                const seconds = Math.floor(time % 60);
-                return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        playPauseButton.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playPauseButton.textContent = '❚❚'; // Change to pause symbol
+            } else {
+                audio.pause();
+                playPauseButton.textContent = '▶'; // Change to play symbol
             }
         });
+
+        muteButton.addEventListener('click', () => {
+            audio.muted = !audio.muted;
+            muteButton.classList.toggle('unmuted');
+        });
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
     </script>
 </body>
 </html>
