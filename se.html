@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chel9385</title>
+    <link rel="image_src" href="US.png">
+    <link rel="icon" type="image/x-icon" href="US.png" sizes="28x28" />
+    <link rel="icon" type="image/svg+xml" href="US.png" />
+    <link rel="apple-touch-icon" type="image/x-icon" href="US.png" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            color: white;
+            background: #000;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        #backgroundVideo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        #backgroundImage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            display: block;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .profile-card {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(128, 0, 128, 0.8);
+            position: relative;
+        }
+
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            border-color: rgb(219 176 3);
+            border-width: 2px;
+        }
+
+        .profile-picture {
+            background: url('AVR.png') no-repeat center center;
+            background-size: cover;
+            border-radius: 50%;
+            height: 80px;
+            width: 80px;
+            margin-bottom: 10px;
+            transition: background-image 0.3s ease;
+            border: 2px solid #800080;
+            box-shadow: 0 0 20px rgba(128, 0, 128, 0.8);
+        }
+
+        .profile-name {
+            font-size: 28px;
+            margin: 0;
+            color: #D8A3E4;
+            animation: fadeIn 0.5s ease-in-out;
+            background-image: url(purplesparkle.gif);
+            line-height: 32px;
+            font-weight: 600;
+        }
+
+        .profile-status {
+            font-size: 16px;
+            margin: 5px 0;
+            color: #EAD1E1;
+            animation: typewriter 8s steps(40) 1s infinite alternate;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid #EAD1E1;
+            letter-spacing: 2px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes typewriter {
+            0% {
+                width: 0;
+            }
+            50% {
+                width: 100%;
+            }
+            100% {
+                width: 0;
+            }
+        }
+
+        .profile-icons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            width: 80%;
+        }
+
+        .icon {
+            background-size: contain;
+            height: 40px;
+            width: 40px;
+            transition: transform 0.6s ease;
+            filter: drop-shadow(rgb(173, 5, 118) 0px 0px 1.9px);
+            fill: rgb(170, 47, 230);
+        }
+
+        .icon:hover {
+            transform: scale(1.1);
+        }
+
+        .music-player {
+            margin-top: 20px;
+        }
+
+        .music-time {
+            font-size: 18px;
+            color: #D8A3E4;
+        }
+
+        .progress-bar {
+            background: #222;
+            border-radius: 5px;
+            height: 10px;
+            width: 100%;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        .progress {
+            background: #9C27B0;
+            border-radius: 5px;
+            height: 100%;
+            width: 0;
+            position: absolute;
+        }
+
+        .time-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #EAD1E1;
+        }
+
+        .controls {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .control {
+            background-size: contain;
+            border: none;
+            border-radius: 50%;
+            height: 40px;
+            width: 40px;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: background-color 0.9s ease;
+            margin: 0 5px;
+        }
+
+        .control.play-pause {
+            background-color: #9D056B;
+            box-shadow: 0 0 20px rgba(128, 0, 128, 0.8);
+            color: #000000;
+        }
+
+        .control.mute {
+            background-image: url('dis-sound.png');
+            background-color: #9D056B;
+            box-shadow: 0 0 20px rgba(128, 0, 128, 0.8);
+            color: #000000;
+        }
+
+        .control.mute.unmuted {
+            background-image: url('Ena-Sound.png');
+            color: #000000;
+        }
+
+        .control.play-pause.playing {
+            background-image: url('path_to_pause.png');
+        }
+
+        .control:hover {
+            background-color: rgba(194, 8, 133, 0.4);
+        }
+
+        .view-counter {
+            position: absolute;
+            top: 21%;
+            right: 62%;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            color: #EAD1E1;
+        }
+
+        .view-counter img {
+            width: 24px;
+            height: 24px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <video autoplay muted loop id="backgroundVideo">
+            <source src="path_to_your_video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <img src="lol.png" id="backgroundImage">
+    </div>
+    <div class="container">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-picture" id="avatar"></div>
+                <p class="profile-name">Princess</p>
+                <p class="profile-status">Zexus Fuck Me Pls.. I Like you</p>
+                <div class="profile-icons">
+                    <a href="https://www.roblox.com/users/2508968144/profile"><img src="R.png" class="icon" alt="Roblox"></a>
+                    <a href="https://discord.com/channels/@me/1210525977281826867"><img src="D.png" class="icon" alt="Discord"></a>
+                    <a href="https://www.youtube.com/watch?v=AiRq-1bp3js&ab_channel=ConstantaN"><img src="YT.png" class="icon" alt="YouTube"></a>
+                    <a href="https://raw.githubusercontent.com/ZexusBerry/OF-Baby/main/Poshel.Nahuy.lua"><img src="Inf.png" class="icon" alt="Info"></a>
+                </div>
+            </div>
+            <div class="music-player">
+                <div class="music-time">_______________________________________</div>
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
+                </div>
+                <div class="time-info">
+                    <span id="current-time">0:00</span>
+                    <span id="total-time">0:00</span>
+                </div>
+                <div class="controls">
+                    <button class="control play-pause" id="playPauseButton">▶</button>
+                    <button class="control mute" id="muteButton"></button>
+                </div>
+                <audio id="audioPlayer" autoplay>
+                    <source src="PoP.mp3" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+        <div class="view-counter">
+            <img src="Eye.png" class="container" alt="Views">
+            <span id="view-count">0</span>
+    </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const audioPlayer = document.getElementById("audioPlayer");
+            const playPauseButton = document.getElementById("playPauseButton");
+            const muteButton = document.getElementById("muteButton");
+            const progress = document.getElementById("progress");
+            const currentTimeElement = document.getElementById("current-time");
+            const totalTimeElement = document.getElementById("total-time");
+            const viewCountElement = document.getElementById("view-count");
+
+            let isPlaying = false;
+            let isMuted = false;
+
+            // Function to get the current view count from localStorage
+            function getViewCount() {
+                let count = localStorage.getItem("viewCount");
+                return count ? parseInt(count, 10) : 0;
+            }
+
+            // Function to set the view count in localStorage
+            function setViewCount(count) {
+                localStorage.setItem("viewCount", count);
+                viewCountElement.textContent = count;
+            }
+
+            // Check if the user has already visited the page
+            function hasVisited() {
+                return localStorage.getItem("hasVisited") === "true";
+            }
+
+            // Mark the user as visited
+            function markAsVisited() {
+                localStorage.setItem("hasVisited", "true");
+            }
+
+            // Update view count if the user has not visited before
+            if (!hasVisited()) {
+                let viewCount = getViewCount();
+                viewCount++;
+                setViewCount(viewCount);
+                markAsVisited();
+            }
+
+            playPauseButton.addEventListener("click", () => {
+                if (isPlaying) {
+                    audioPlayer.pause();
+                    playPauseButton.textContent = "▶";
+                    playPauseButton.classList.remove("playing");
+                } else {
+                    audioPlayer.play();
+                    playPauseButton.textContent = "■";
+                    playPauseButton.classList.add("playing");
+                }
+                isPlaying = !isPlaying;
+            });
+
+            muteButton.addEventListener("click", () => {
+                if (isMuted) {
+                    audioPlayer.muted = false;
+                    muteButton.classList.remove("unmuted");
+                } else {
+                    audioPlayer.muted = true;
+                    muteButton.classList.add("unmuted");
+                }
+                isMuted = !isMuted;
+            });
+
+            audioPlayer.addEventListener("canplay", () => {
+                totalTimeElement.textContent = formatTime(audioPlayer.duration);
+            });
+
+            audioPlayer.addEventListener("timeupdate", () => {
+                const currentTime = audioPlayer.currentTime;
+                const duration = audioPlayer.duration;
+                const progressPercent = (currentTime / duration) * 100;
+                progress.style.width = `${progressPercent}%`;
+
+                currentTimeElement.textContent = formatTime(currentTime);
+            });
+
+            function formatTime(time) {
+                const minutes = Math.floor(time / 60);
+                const seconds = Math.floor(time % 60);
+                return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }
+        });
+    </script>
+</body>
+</html>
