@@ -264,7 +264,7 @@
                     <a href=""><img src="RB.png" class="icon" alt="Roblox"></a>
                     <a href=""><img src="DB.png" class="icon" alt="Discord"></a>
                     <a href="https://www.youtube.com/channel/UCkrdNuHVElIXAhN2YAx7Lgg"><img src="YTB.png" class="icon" alt="YouTube"></a>
-                    <a href=""><img src="InfB.png" class="icon" alt="Info"></a>
+                    <a href=""><img src="infB.png" class="icon" alt="Info"></a>
                 </div>
             </div>
             <div class="music-player">
@@ -282,8 +282,8 @@
                 </div>
             </div>
             <div class="view-counter">
-                <img src="eye.png" alt="Views">
-                <span id="viewCount">0 Views</span>
+                <img src="" alt="Views">
+                <span id="viewCount"></span>
             </div>
         </div>
     </div>
@@ -295,7 +295,7 @@
         const totalTimeLabel = document.getElementById('total-time');
 
         // Simulated audio element
-        const audio = new Audio('path_to_your_audio_file.mp3');
+        const audio = new Audio('S.mp3');
         audio.addEventListener('loadedmetadata', () => {
             totalTimeLabel.textContent = formatTime(audio.duration);
         });
